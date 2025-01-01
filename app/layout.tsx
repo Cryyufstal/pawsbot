@@ -9,8 +9,11 @@
 
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
+// تحميل الخطوط المحلية
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -22,9 +25,13 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+// تحميل الخطوط من Google
+const inter = Inter({ subsets: ["latin"] });
+
+// إعداد البيانات الوصفية (Metadata)
 export const metadata: Metadata = {
-  title: "Paws Game Clone",
-  description: "Clone of the popular Telegram mini app Paws, developed by Nikandr Surkov.",
+  title: "Telegram Mini App",
+  description: "A simple Telegram Mini App using Next.js 14",
 };
 
 export default function RootLayout({
@@ -34,8 +41,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* إضافة سكربت تيليجرام لتطبيق Web App */}
+        <Script
+          src="https://telegram.org/js/telegram-web-app.js"
+          strategy="beforeInteractive"
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.className} antialiased`}
       >
         {children}
       </body>
