@@ -6,7 +6,6 @@
  * YouTube: https://www.youtube.com/@NikandrSurkov
  * GitHub: https://github.com/nikandr-surkov
  */
-
 'use client'
 
 import Wallet from '@/icons/Wallet'
@@ -16,8 +15,27 @@ import Star from '@/icons/Star'
 import Image from 'next/image'
 import ArrowRight from '@/icons/ArrowRight'
 import { sparkles } from '@/images'
+import WebApp from '@twa-dev/sdk'
+import { useEffect, useState } from 'react'
+
+interface UserData {
+    id: number;
+    first_name: string;
+    last_name?: string;
+    username?: string;
+    language_code: string;
+    is_premium?: boolean;
+}
 
 const HomeTab = () => {
+    const [userData, setUserData] = useState<UserData | null>(null)
+
+    useEffect(() => {
+        if (WebApp.initDataUnsafe.user) {
+            setUserData(WebApp.initDataUnsafe.user as UserData)
+        }
+    }, [])
+
     return (
         <div className={`home-tab-con transition-all duration-300`}>
             {/* Connect Wallet Button */}
@@ -36,7 +54,7 @@ const HomeTab = () => {
                     <div className="text-white text-2xl">PAWS</div>
                 </div>
                 <div className="flex items-center gap-1 text-[#868686] rounded-full px-4 py-1.5 mt-2 cursor-pointer">
-                    <span>NEWCOMER</span>
+                    <span>{userData?.username || 'N/A'}</span>
                     <Image
                         src={sparkles}
                         alt="sparkles"
